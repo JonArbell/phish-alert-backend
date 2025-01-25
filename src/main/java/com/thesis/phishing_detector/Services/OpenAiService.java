@@ -13,6 +13,7 @@ import java.util.Map;
 
 @Service
 public class OpenAiService implements ApiService{
+
     private final WebClient webClient;
 
     private final Logger logger = LoggerFactory.getLogger(OpenAiService.class);
@@ -74,7 +75,7 @@ public class OpenAiService implements ApiService{
                             Map.of("role", "system", "content", "You are a phishing detection expert. Use trusted search engines to verify the domain's legitimacy and focus on evidence-based results."),
                             Map.of("role", "user", "content", prompt)
                     ),
-                    "max_tokens", 50
+                    "max_tokens", MAX_TOKEN
             );
 
             return webClient.post()
