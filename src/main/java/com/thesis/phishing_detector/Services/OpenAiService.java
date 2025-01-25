@@ -47,34 +47,18 @@ public class OpenAiService implements ApiService{
 //                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% confident." +
 //                ".\"\nPlease explain why it's safe or suspicious. 300 words only";
 
-//        var prompt = "\"Analyze this URL: "+url+" and check if it seems like a phishing attempt. Common phishing " +
-//                "tactics include:\n" +
-//                "- Fake login pages that ask for personal information.\n" +
-//                "- Check if it has SEO.\n"+
-//                "- Check if it is for school or any organization.\n"+
-//                "- URLs that try to impersonate well-known websites (e.g., slightly altered domain names).\n" +
-//                "- Redirecting to unexpected destinations.\n" +
-//                "\n" +
-//                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% " +
-//                "confident" +
-//                "." +
-//                ".\"\nPlease do not provide any additional information, just the verdict.";
-
-            var prompt = "\"Analyze this URL: "+url+" and check if it seems like a phishing attempt. Common phishing " +
-                    "tactics include:\n" +
-                    "- Fake login pages that ask for personal information.\n" +
-                    "- Check if it has SEO.\n"+
-                    "- Check if it is for school or any organization.\n"+
-                    "- URLs that try to impersonate well-known websites (e.g., slightly altered domain names).\n" +
-                    "- Redirecting to unexpected destinations.\n" +
-                    "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% " +
-                    "confident.\n" +
-                    "* HTTPS Check.\n"+
-                    "* Check the content.\n"+
-                    "* WHOIS Lookup.\n" +
-                    "* Check Site Status.\n" +
-                    "\n" +
-                    ".\"\nPlease do not provide any additional information, just the verdict. 'Safe' or 'Suspicious'";
+        var prompt = "\"Analyze this URL: "+url+" and check if it seems like a phishing attempt. Common phishing " +
+                "tactics include:\n" +
+                "- Fake login pages that ask for personal information.\n" +
+                "- Check if it has SEO.\n"+
+                "- Check if it is for school or any organization.\n"+
+                "- URLs that try to impersonate well-known websites (e.g., slightly altered domain names).\n" +
+                "- Redirecting to unexpected destinations.\n" +
+                "\n" +
+                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% " +
+                "confident" +
+                "." +
+                ".\"\nPlease do not provide any additional information, just the verdict. Safe or Suspicious only";
 
             var host = new URL(url);
 
