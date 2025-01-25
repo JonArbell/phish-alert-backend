@@ -4,6 +4,7 @@ import com.thesis.phishing_detector.Services.UrlProcessingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class WebSocketHandlerImpl extends TextWebSocketHandler {
 
     private final Logger logger = LoggerFactory.getLogger(WebSocketHandlerImpl.class);
