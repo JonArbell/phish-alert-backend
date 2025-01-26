@@ -26,8 +26,21 @@ public class WebSocketHandlerImpl extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.add(session);
-        logger.info("New WebSocket connection established. Total active sessions : {}", sessions.size());
+
+        var query = session.getUri().getQuery(); // Extract query string
+
+        String clientType = null;
+
+        if (query != null && query.contains("clientType="))
+            clientType = query.split("clientType=")[1];
+
+        if("FRONTEND".equals(clientType) || "ARDUINO".equals(clientType)){
+            sessions.add(session);
+            logger.error("WebSocket connection success. Total active sessions : {}", sessions.size());
+        }
+
+        logger.error("WebSocket connection failed. Total active sessions : {}", sessions.size());
+
     }
 
     @Override
