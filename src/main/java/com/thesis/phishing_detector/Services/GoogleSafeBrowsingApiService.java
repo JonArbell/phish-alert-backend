@@ -23,7 +23,6 @@ public class GoogleSafeBrowsingApiService implements ApiService{
 
     private final WebClient webClient;
 
-
     public GoogleSafeBrowsingApiService(WebClient.Builder webClient) {
         this.webClient = webClient.baseUrl("https://safebrowsing.googleapis.com").build();
     }

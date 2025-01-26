@@ -48,18 +48,51 @@ public class OpenAiService implements ApiService{
 //                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% confident." +
 //                ".\"\nPlease explain why it's safe or suspicious. 300 words only";
 
-        var prompt = "\"Analyze this URL: "+url+" and check if it seems like a phishing attempt. Common phishing " +
-                "tactics include:\n" +
-                "- Fake login pages that ask for personal information.\n" +
-                "- Check if it has SEO.\n"+
-                "- Check if it is for school or any organization.\n"+
-                "- URLs that try to impersonate well-known websites (e.g., slightly altered domain names).\n" +
-                "- Redirecting to unexpected destinations.\n" +
-                "\n" +
-                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% " +
-                "confident" +
-                "." +
-                ".\"\nPlease do not provide any additional information, just the verdict. Safe or Suspicious only";
+            // 2nd best prompt
+//        var prompt = "\"Analyze this URL: "+url+" and check if it seems like a phishing attempt. Common phishing " +
+//                "tactics include:\n" +
+//                "- Fake login pages that ask for personal information.\n" +
+//                "- Check if it has SEO.\n"+
+//                "- Check if it is for school or any organization.\n"+
+//                "- URLs that try to impersonate well-known websites (e.g., slightly altered domain names).\n" +
+//                "- Redirecting to unexpected destinations.\n" +
+//                "\n" +
+//                "Is this URL 'Safe' or 'Suspicious'? Used these tactics along with a confidence level 80% " +
+//                "confident" +
+//                "." +
+//                ".\"\nPlease do not provide any additional information, just the verdict. Safe or Suspicious only";
+
+//            var requestBody = Map.of(
+//                    "model", this.model,
+//                    "messages", List.of(
+//                            Map.of("role", "system", "content", "You are a phishing detection expert. Use trusted search engines to verify the domain's legitimacy and focus on evidence-based results."),
+//                            Map.of("role", "user", "content", prompt)
+//                    ),
+//                    "max_tokens", MAX_TOKEN
+//            );
+
+            // This prompt is come from Deepseek AI. Best prompt
+            var prompt = "Analyze this URL: " + url + " and check if it seems like a phishing attempt. Use the following criteria to evaluate the URL:\n" +
+                    "1. **Domain Analysis**:\n" +
+                    "   - Check if the domain name is misspelled or mimics a well-known website (e.g., 'paypa1.com' instead of 'paypal.com').\n" +
+                    "   - Verify if the domain is newly registered (phishing domains are often created recently).\n" +
+                    "   - Check if the domain uses an IP address instead of a proper domain name.\n" +
+                    "2. **URL Structure**:\n" +
+                    "   - Look for excessive subdomains or random strings in the URL path.\n" +
+                    "   - Check if the URL contains suspicious keywords like 'login', 'secure', 'account', or 'verify'.\n" +
+                    "   - Verify if the URL uses a URL shortening service (e.g., bit.ly, tinyurl.com).\n" +
+                    "3. **Content Analysis**:\n" +
+                    "   - Check if the website asks for sensitive information (e.g., passwords, credit card numbers).\n" +
+                    "   - Verify if the website has poor design, broken images, or inconsistent branding.\n" +
+                    "   - Look for grammar or spelling errors on the website.\n" +
+                    "4. **Behavioral Analysis**:\n" +
+                    "   - Check if the URL redirects to unexpected or multiple destinations.\n" +
+                    "   - Verify if the website generates excessive pop-ups or alerts.\n" +
+                    "5. **SEO and Context**:\n" +
+                    "   - Check if the URL is associated with a school, organization, or legitimate business.\n" +
+                    "   - Verify if the website has proper SEO (e.g., meta tags, descriptions) or appears in trusted search engine results.\n" +
+                    "\n" +
+                    "Based on the above analysis, provide a verdict with a confidence level of at least 80%. Only respond with 'Safe' or 'Suspicious'.";
 
             var host = new URL(url);
 
@@ -69,10 +102,12 @@ public class OpenAiService implements ApiService{
 
             logger.info("API KEY {}", this.apiKey);
 
+
+            // This content is come from Deepseek AI. Best content
             var requestBody = Map.of(
                     "model", this.model,
                     "messages", List.of(
-                            Map.of("role", "system", "content", "You are a phishing detection expert. Use trusted search engines to verify the domain's legitimacy and focus on evidence-based results."),
+                            Map.of("role", "system", "content", "You are a phishing detection expert. Analyze the URL and respond only with 'Safe' or 'Suspicious'."),
                             Map.of("role", "user", "content", prompt)
                     ),
                     "max_tokens", MAX_TOKEN

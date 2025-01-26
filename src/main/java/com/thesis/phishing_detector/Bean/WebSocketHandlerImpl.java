@@ -37,6 +37,7 @@ public class WebSocketHandlerImpl extends TextWebSocketHandler {
         if("FRONTEND".equals(clientType) || "ARDUINO".equals(clientType)){
             sessions.add(session);
             logger.error("WebSocket connection success. Total active sessions : {}", sessions.size());
+            return;
         }
 
         logger.error("WebSocket connection failed. Total active sessions : {}", sessions.size());

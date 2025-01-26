@@ -1,0 +1,3 @@
+Gagamit ng HTTP request instead of websocket para mas secured. Pag may response na si google safe browsing api or open
+ai api, magsesend din kay arduino yung response sa controller. Meaning may HttpClient na nakainject kay controller para
+makapag send din kay arduino.
