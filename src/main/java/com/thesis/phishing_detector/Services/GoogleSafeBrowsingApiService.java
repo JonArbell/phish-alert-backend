@@ -78,5 +78,4 @@ public class GoogleSafeBrowsingApiService implements ApiService{
         }
     }
 
-
 }

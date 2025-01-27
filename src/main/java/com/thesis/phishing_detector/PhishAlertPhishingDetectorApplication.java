@@ -10,6 +10,7 @@ public class PhishAlertPhishingDetectorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PhishAlertPhishingDetectorApplication.class, args);
+
 	}
 
 }
