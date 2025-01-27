@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class OpenAiService implements ApiService{
     private final int MAX_TOKEN = 50;
 
     @Value("${openai.api.url}")
-    private String uri;
+    private String url;
 
     public OpenAiService(WebClient.Builder webClient){
         this.webClient = webClient
@@ -70,7 +69,7 @@ public class OpenAiService implements ApiService{
 //                    "max_tokens", MAX_TOKEN
 //            );
 
-        // This prompt is come from Deepseek AI. Best prompt
+        // This prompt is come from Deepseek AI. Best prompt.
         var prompt = "Analyze this URL: " + url + " and check if it seems like a phishing attempt. Use the following criteria to evaluate the URL:\n" +
                 "1. **Domain Analysis**:\n" +
                 "   - Check if the domain name is misspelled or mimics a well-known website (e.g., 'paypa1.com' instead of 'paypal.com').\n" +
@@ -112,14 +111,15 @@ public class OpenAiService implements ApiService{
                 "   - Poor website design, grammar errors, or inconsistent branding.\n" +
                 "   - Lack of a valid SSL certificate or HTTPS.\n" +
                 "   - URLs flagged by external tools like VirusTotal or Google Safe Browsing.\n" +
-                "   - Repository names containing suspicious keywords like 'viral', 'free', 'download', or 'video'.\n" +
+                "   - Repository names containing any suspicious keywords. Examples 'viral', 'free', 'download', " +
+                "'video', etc.\n" +
                 "   - Unknown or newly created user profiles hosting the repository.\n" +
                 "\n" +
                 "If the URL does not meet any of the suspicious criteria and appears legitimate, classify it as 'Safe'.";
 
         logger.info("OPEN AI | URL : {}",url);
 
-        // This content is come from Deepseek AI. Best content
+        // This content is come from Deepseek AI. Best content.
         var requestBody = Map.of(
                 "model", this.model,
                 "messages", List.of(
@@ -130,7 +130,7 @@ public class OpenAiService implements ApiService{
         );
 
         return webClient.post()
-                .uri(this.uri)
+                .uri(this.url)
                 .header(HttpHeaders.AUTHORIZATION,"Bearer "+this.apiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
