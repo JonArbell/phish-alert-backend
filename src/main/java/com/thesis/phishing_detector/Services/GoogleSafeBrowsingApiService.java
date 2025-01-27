@@ -60,7 +60,10 @@ public class GoogleSafeBrowsingApiService implements ApiService{
 //                        logger.info("URL is safe: {}", url);
 //                    }
                     })
-                    .doOnError(error -> logger.error("Google Safe Api Error : {}", error.getMessage()))
+                    .doOnError(error -> {
+                        logger.error("Google Safe Api Error : {}", error.getMessage());
+                        throw new RuntimeException(error.getMessage());
+                    })
 //                .map(response -> {
 //                    if (response.contains("matches")){
 //                        return "Suspicious";

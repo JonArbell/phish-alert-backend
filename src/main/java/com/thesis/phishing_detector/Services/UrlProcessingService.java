@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import java.net.URL;
 
 @Service
 public class UrlProcessingService {
@@ -23,27 +22,19 @@ public class UrlProcessingService {
     @Cacheable(value = "urls", key = "#url")
     public String processUrl(String url){
 
-        if(isValidUrl(url)){
-
+        try{
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-            if(googleResponse.equals("{}\n"))
+            if("{}\n".equals(googleResponse))
                 return openAiService.analyzeUrl(url);
 
             return googleResponse;
-        }
 
-        return "URL is not valid. Please enter valid URL.";
+        }catch (RuntimeException e){
 
-    }
+            logger.info("Process Exception Error : {}",e.getMessage());
 
-    private boolean isValidUrl(String url) {
-        try {
-            var parsedUrl = new URL(url);
-            String protocol = parsedUrl.getProtocol();
-            return protocol.equals("http") || protocol.equals("https");
-        } catch (Exception e) {
-            return false;
+            return e.getMessage();
         }
     }
 
