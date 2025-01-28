@@ -5,18 +5,11 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
+@Configuration
 public class Config {
-
-    @Bean
-    public WebClient webclientBuilder(){
-        return WebClient.builder()
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                .build();
-    }
 
     @Bean
     public CacheManager cacheManager() {
