@@ -1,10 +1,12 @@
 package com.thesis.phishing_detector.Services;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class UrlProcessingService {
 
@@ -14,10 +16,7 @@ public class UrlProcessingService {
 
     private final ApiService openAiService;
 
-    public UrlProcessingService(GoogleSafeBrowsingApiService googleSafeBrowsingApiService, OpenAiService openAiService) {
-        this.googleSafeBrowsingApiService = googleSafeBrowsingApiService;
-        this.openAiService = openAiService;
-    }
+    private final ArduinoService arduinoService;
 
     @Cacheable(value = "urls", key = "#url")
     public String processUrl(String url){
@@ -25,8 +24,20 @@ public class UrlProcessingService {
         try{
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-            if("{}\n".equals(googleResponse))
-                return openAiService.analyzeUrl(url);
+
+            if("{}\n".equals(googleResponse)){
+
+                var openAiResponse = openAiService.analyzeUrl(url);
+
+                var arduinoResponse = arduinoService.sendResponse(openAiResponse);
+
+                logger.info("Arduino Response :  {}",arduinoResponse);
+                return openAiResponse;
+            }
+
+            var arduinoResponse = arduinoService.sendResponse(googleResponse);
+
+            logger.info("Arduino Response :  {}",arduinoResponse);
 
             return googleResponse;
 
