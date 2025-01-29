@@ -14,7 +14,7 @@ public class ArduinoService {
     private final Logger logger = LoggerFactory.getLogger(ArduinoService.class);
 
     public ArduinoService(WebClient.Builder webClient) {
-        this.webClient = webClient.baseUrl("192.168.1.3").build();
+        this.webClient = webClient.baseUrl("http://192.168.2.112").build();
     }
 
     public String sendResponse(String response){
@@ -23,7 +23,7 @@ public class ArduinoService {
             // Request Payload
             var requestBody = new HashMap<>();
 
-            requestBody.put("response",response);
+            requestBody.put("send",response);
 
             return webClient.post()
                     .uri("/send-response")

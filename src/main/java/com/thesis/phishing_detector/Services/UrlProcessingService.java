@@ -31,12 +31,13 @@ public class UrlProcessingService {
                 var arduinoResponse = arduinoService.sendResponse(openAiResponse);
 
                 logger.info("Arduino Response :  {}",arduinoResponse);
+
                 return openAiResponse;
             }
 
-//            var arduinoResponse = arduinoService.sendResponse(googleResponse);
-//
-//            logger.info("Arduino Response :  {}",arduinoResponse);
+            var arduinoResponse = arduinoService.sendResponse(googleResponse);
+
+            logger.info("Arduino Response :  {}",arduinoResponse);
 
             return googleResponse;
 
@@ -47,5 +48,6 @@ public class UrlProcessingService {
             return e.getMessage();
         }
     }
+
 
 }
