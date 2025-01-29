@@ -24,7 +24,6 @@ public class UrlProcessingService {
         try{
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-
             if("{}\n".equals(googleResponse)){
 
                 var openAiResponse = openAiService.analyzeUrl(url);
@@ -35,9 +34,9 @@ public class UrlProcessingService {
                 return openAiResponse;
             }
 
-            var arduinoResponse = arduinoService.sendResponse(googleResponse);
-
-            logger.info("Arduino Response :  {}",arduinoResponse);
+//            var arduinoResponse = arduinoService.sendResponse(googleResponse);
+//
+//            logger.info("Arduino Response :  {}",arduinoResponse);
 
             return googleResponse;
 
