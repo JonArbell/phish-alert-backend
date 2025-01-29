@@ -22,6 +22,7 @@ public class UrlProcessingService {
     public String processUrl(String url){
 
         try{
+
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
             if("{}\n".equals(googleResponse)){
