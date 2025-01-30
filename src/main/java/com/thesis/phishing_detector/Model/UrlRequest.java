@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UrlRequest {
 
     @URL(message = "Please provide a valid URL.")

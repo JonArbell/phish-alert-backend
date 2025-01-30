@@ -21,7 +21,7 @@ public class PingController {
 
     @GetMapping("/api/ping")
     public Map<String, String> getPing(){
-        return Map.of("Ping","Tamang ping lang. Pogi ni Arbell sobra, cute pa. Eey");
+        return Map.of("ping","Ping lng para hindi magkaroon ng pause sa hosting ng render. Panis.");
     }
 
     @Async
