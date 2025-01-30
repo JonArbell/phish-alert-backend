@@ -18,7 +18,7 @@ public class PingController {
     private final WebClient webClient;
 
     public PingController(WebClient.Builder webClient){
-        this.webClient = webClient.baseUrl("").build();
+        this.webClient = webClient.baseUrl("https://phish-alert.onrender.com").build();
     }
 
     @GetMapping("/api/ping")
