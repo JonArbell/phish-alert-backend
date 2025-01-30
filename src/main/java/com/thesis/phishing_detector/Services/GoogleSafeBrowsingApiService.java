@@ -4,8 +4,7 @@ import com.thesis.phishing_detector.Model.GoogleSafeApiModel.Client;
 import com.thesis.phishing_detector.Model.GoogleSafeApiModel.GoogleSafeRequest;
 import com.thesis.phishing_detector.Model.GoogleSafeApiModel.ThreatInfo;
 import com.thesis.phishing_detector.Model.GoogleSafeApiModel.URL;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Service
 public class GoogleSafeBrowsingApiService implements ApiService{
     @Value("${google.safebrowsing.api.key}")
@@ -20,8 +20,6 @@ public class GoogleSafeBrowsingApiService implements ApiService{
 
     @Value("${google.safebrowsing.api.url}")
     private String uri;
-
-    private final Logger logger = LoggerFactory.getLogger(GoogleSafeBrowsingApiService.class);
 
     private final WebClient webClient;
 
@@ -59,7 +57,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                     .retrieve()
                     .bodyToMono(String.class)
                     .doOnNext(response -> {
-                        logger.info("Google Safe Api response : {}", response);
+                        log.info("Google Safe Api response : {}", response);
 
                         // If the response contains matches, there are threats
 //                    if (response.contains("matches")) {
@@ -69,7 +67,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
 //                    }
                     })
                     .doOnError(error -> {
-                        logger.error("Google Safe Api Error : {}", error.getMessage());
+                        log.error("Google Safe Api Error : {}", error.getMessage());
                         throw new RuntimeException(error.getMessage());
                     })
 //                .map(response -> {
@@ -81,7 +79,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                     .block();
 
         } catch (Exception e) {
-            logger.error("Error occurred: {}", e.getMessage());
+            log.error("Error occurred: {}", e.getMessage());
             return e.getMessage();
         }
     }

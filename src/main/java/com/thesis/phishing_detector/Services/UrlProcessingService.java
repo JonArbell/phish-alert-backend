@@ -1,16 +1,14 @@
 package com.thesis.phishing_detector.Services;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UrlProcessingService {
-
-    private final Logger logger = LoggerFactory.getLogger(UrlProcessingService.class);
 
     private final ApiService googleSafeBrowsingApiService;
 
@@ -44,7 +42,7 @@ public class UrlProcessingService {
 
         }catch (RuntimeException e){
 
-            logger.info("Process Exception Error : {}",e.getMessage());
+            log.info("Process Exception Error : {}",e.getMessage());
 
             return e.getMessage();
         }

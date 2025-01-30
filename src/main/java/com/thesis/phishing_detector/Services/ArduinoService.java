@@ -1,17 +1,15 @@
 package com.thesis.phishing_detector.Services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.util.HashMap;
 
+@Slf4j
 @Service
 public class ArduinoService {
     private final WebClient webClient;
-
-    private final Logger logger = LoggerFactory.getLogger(ArduinoService.class);
 
     public ArduinoService(WebClient.Builder webClient) {
         this.webClient = webClient.baseUrl("http://192.168.2.112").build();
@@ -31,15 +29,15 @@ public class ArduinoService {
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
-                    .doOnNext(arduinoResponse -> logger.info("Arduino response : {}", arduinoResponse))
+                    .doOnNext(arduinoResponse -> log.info("Arduino response : {}", arduinoResponse))
                     .doOnError(error -> {
-                        logger.error("Arduino Error : {}", error.getMessage());
+                        log.error("Arduino Error : {}", error.getMessage());
                         throw new RuntimeException(error.getMessage());
                     })
                     .block();
 
         } catch (Exception e) {
-            logger.error("Arduino error occurred: {}", e.getMessage());
+            log.error("Arduino error occurred: {}", e.getMessage());
             return e.getMessage();
         }
     }

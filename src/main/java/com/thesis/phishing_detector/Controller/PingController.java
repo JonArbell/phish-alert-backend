@@ -1,7 +1,6 @@
 package com.thesis.phishing_detector.Controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +9,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class PingController {
-
-    private final Logger logger = LoggerFactory.getLogger(PingController.class);
 
     private final WebClient webClient;
 
@@ -35,12 +33,12 @@ public class PingController {
                 .retrieve()
                 .bodyToMono(Map.class)
                 .subscribe(
-                        result -> logger.info("Ping successful, Result: {}", result),
+                        result -> log.info("Ping successful, Result: {}", result),
                         error -> {
                             if (error instanceof WebClientResponseException webClientException) {
-                                logger.error("Ping failed with status {}: {}", webClientException.getStatusCode(), webClientException.getMessage());
+                                log.error("Ping failed with status {}: {}", webClientException.getStatusCode(), webClientException.getMessage());
                             } else {
-                                logger.error("Exception Error: {}", error.getMessage());
+                                log.error("Exception Error: {}", error.getMessage());
                             }
                         }
                 );

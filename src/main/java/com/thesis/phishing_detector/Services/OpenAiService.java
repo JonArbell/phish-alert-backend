@@ -2,8 +2,7 @@ package com.thesis.phishing_detector.Services;
 
 import com.thesis.phishing_detector.Model.OpenAiModel.Message;
 import com.thesis.phishing_detector.Model.OpenAiModel.PromptRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,12 +11,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class OpenAiService implements ApiService{
 
     private final WebClient webClient;
-
-    private final Logger logger = LoggerFactory.getLogger(OpenAiService.class);
 
     @Value("${openai.api.key}")
     private String apiKey;
@@ -119,7 +117,7 @@ public class OpenAiService implements ApiService{
                 "\n" +
                 "If the URL does not meet any of the suspicious criteria and appears legitimate, classify it as 'Safe'.";
 
-        logger.info("OPEN AI | URL : {}",url);
+        log.info("OPEN AI | URL : {}",url);
 
         var systemMessage = Message.builder()
                 .role("system")
@@ -144,20 +142,20 @@ public class OpenAiService implements ApiService{
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(Map.class)
-                .doOnNext(response -> logger.info("Ai Response : {}",response))
+                .doOnNext(response -> log.info("Ai Response : {}",response))
                 .doOnError(error -> {
-                    logger.error("Ai Error : {}",error.getMessage());
+                    log.error("Ai Error : {}",error.getMessage());
                     throw new RuntimeException(error.getMessage());
                 })
                 .map(response -> {
 
                     var choices = (Map<String, Object>) ((List<?>) response.get("choices")).get(0);
 
-                    logger.info("Choices : {}",choices);
+                    log.info("Choices : {}",choices);
 
                     var message = (Map<String, String>) choices.get("message");
 
-                    logger.info("Message : {}",message);
+                    log.info("Message : {}",message);
 
                     return message.get("content");
                 })
