@@ -29,16 +29,16 @@ public class UrlProcessingService {
 
                 var openAiResponse = openAiService.analyzeUrl(url);
 
-                var arduinoResponse = arduinoService.sendResponse(openAiResponse);
-
-                logger.info("Arduino Response :  {}",arduinoResponse);
+//                var arduinoResponse = arduinoService.sendResponse(openAiResponse);
+//
+//                logger.info("Arduino Response :  {}",arduinoResponse);
 
                 return openAiResponse;
             }
 
-            var arduinoResponse = arduinoService.sendResponse(googleResponse);
-
-            logger.info("Arduino Response :  {}",arduinoResponse);
+//            var arduinoResponse = arduinoService.sendResponse(googleResponse);
+//
+//            logger.info("Arduino Response :  {}",arduinoResponse);
 
             return googleResponse;
 

@@ -1,5 +1,9 @@
 package com.thesis.phishing_detector.Services;
 
+import com.thesis.phishing_detector.Model.GoogleSafeApiModel.Client;
+import com.thesis.phishing_detector.Model.GoogleSafeApiModel.GoogleSafeRequest;
+import com.thesis.phishing_detector.Model.GoogleSafeApiModel.ThreatInfo;
+import com.thesis.phishing_detector.Model.GoogleSafeApiModel.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,9 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class GoogleSafeBrowsingApiService implements ApiService{
@@ -33,16 +35,22 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                 "POTENTIALLY_HARMFUL_APPLICATION");
 
         try {
-            // Request Payload
-            var requestBody = new HashMap<>();
 
-            requestBody.put("client", Map.of("clientId", "phish-alert", "clientVersion", "1.1"));
-            requestBody.put("threatInfo", Map.of(
-                    "threatTypes", threatTypes,
-                    "platformTypes", List.of("ANY_PLATFORM"),
-                    "threatEntryTypes", List.of("URL"),
-                    "threatEntries", List.of(Map.of("url", url))
-            ));
+            var client = new Client("phish-alert","1.1");
+
+            var threatInfo = ThreatInfo
+                        .builder()
+                        .threatTypes(threatTypes)
+                        .platformTypes(List.of("ANY_PLATFORM"))
+                        .threatEntryTypes(List.of("URL"))
+                        .threatEntries(List.of(new URL(url)))
+                        .build();
+
+            var requestBody = GoogleSafeRequest
+                        .builder()
+                        .client(client)
+                        .threatInfo(threatInfo)
+                        .build();
 
             return webClient.post()
                     .uri(uri + apiKey)

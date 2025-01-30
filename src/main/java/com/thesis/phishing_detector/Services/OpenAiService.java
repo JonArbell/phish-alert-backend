@@ -1,5 +1,7 @@
 package com.thesis.phishing_detector.Services;
 
+import com.thesis.phishing_detector.Model.OpenAiModel.Message;
+import com.thesis.phishing_detector.Model.OpenAiModel.PromptRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -119,15 +121,21 @@ public class OpenAiService implements ApiService{
 
         logger.info("OPEN AI | URL : {}",url);
 
-        // This content is come from Deepseek AI. Best content.
-        var requestBody = Map.of(
-                "model", this.model,
-                "messages", List.of(
-                        Map.of("role", "system", "content", "You are a phishing detection expert. Analyze the URL and respond only with 'Safe' or 'Suspicious'."),
-                        Map.of("role", "user", "content", prompt)
-                ),
-                "max_tokens", MAX_TOKEN
-        );
+        var systemMessage = Message.builder()
+                .role("system")
+                .content("You are a phishing detection expert. Analyze the URL and respond only with 'Safe' or 'Suspicious'.")
+                .build();
+
+        var userMessage = Message.builder()
+                .role("user")
+                .content(prompt)
+                .build();
+
+        var requestBody = PromptRequest.builder()
+                .model(this.model)
+                .messages(List.of(systemMessage,userMessage))
+                .max_tokens(this.MAX_TOKEN)
+                .build();
 
         return webClient.post()
                 .uri(this.url)
