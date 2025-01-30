@@ -23,7 +23,7 @@ public class PingController {
 
     @GetMapping("/api/ping")
     public Map<String, String> getPing(){
-        return Map.of("Ping","Tamang ping lang");
+        return Map.of("Ping","Tamang ping lang. Pogi ni Arbell sobra, cute pa. Eey");
     }
 
     @Async
