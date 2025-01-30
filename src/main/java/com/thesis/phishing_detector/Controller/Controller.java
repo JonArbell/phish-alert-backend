@@ -24,7 +24,7 @@ public class Controller {
 
     private final UrlProcessingService urlProcessingService;
 
-    @PostMapping("/check-url")
+    @PostMapping("/api/check-url")
     public ResponseEntity<Map<String, String>> checkUrl(@Valid @RequestBody UrlRequest urlRequest,
                                                         @RequestHeader("Client-Type") String clientType,
                                                         BindingResult bindingResult){
