@@ -39,18 +39,18 @@ public class GoogleSafeBrowsingApiService implements ApiService{
             var client = new Client("phish-alert","1.1");
 
             var threatInfo = ThreatInfo
-                        .builder()
-                        .threatTypes(threatTypes)
-                        .platformTypes(List.of("ANY_PLATFORM"))
-                        .threatEntryTypes(List.of("URL"))
-                        .threatEntries(List.of(new URL(url)))
-                        .build();
+                    .builder()
+                    .threatTypes(threatTypes)
+                    .platformTypes(List.of("ANY_PLATFORM"))
+                    .threatEntryTypes(List.of("URL"))
+                    .threatEntries(List.of(new URL(url)))
+                    .build();
 
             var requestBody = GoogleSafeRequest
-                        .builder()
-                        .client(client)
-                        .threatInfo(threatInfo)
-                        .build();
+                    .builder()
+                    .client(client)
+                    .threatInfo(threatInfo)
+                    .build();
 
             return webClient.post()
                     .uri(uri + apiKey)
