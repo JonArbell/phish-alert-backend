@@ -30,7 +30,7 @@ public class PingController {
     @Scheduled(fixedRate = 300000) // 5 minutes
     public void ping() {
 
-        webClient.post()
+        webClient.get()
                 .uri("/api/ping")
                 .retrieve()
                 .bodyToMono(Map.class)
