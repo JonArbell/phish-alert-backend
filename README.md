@@ -34,16 +34,20 @@ The backend service for PhishAlert processes URL safety checks and distributes r
 **Clone the Repository**
 1. git clone https://github.com/JonArbell/phish-alert.git
 
+
 2. cd phishing-detector
+
 
 3. Set Up Environment Variables
 Before running the backend, you need to configure your environment variables for API keys.
 Create a .env file in the root directory of the project and add the following:
 
-google.safebrowsing.api.key=your_google_api_key_here
-openai.api.key==your_openai_api_key_here
+
+    google.safebrowsing.api.key=your_google_api_key_here
+    openai.api.key==your_openai_api_key_here
 
 Replace your_google_api_key_here and your_openai_api_key_here with the actual API keys you obtained from Google and OpenAI.
+
 
 4. Set Up the Arduino Device
 In this step, we're using Arduino Uno R4 Wi-Fi for physical alerts. Follow these steps to receive WebClient notifications:
@@ -138,7 +142,9 @@ Serial.println("Client disconnected!");
 ```
 - Upload this script to the Arduino device.
 
+
 5. Run the Backend Service
+
 
 6. Test the Setup
 - Frontend (Browser Extension): The extension should now interact with the backend and receive notifications based 
