@@ -25,7 +25,7 @@ public class Controller {
     public ResponseEntity<Map<String, String>> checkUrl(@RequestBody @Valid UrlRequest urlRequest,
                                                         @RequestHeader("Client-Type") String clientType){
 
-        log.info("URL Request : {}",urlRequest);
+        log.info("URL Request : {}",urlRequest.getUrl());
 
         log.info("Client Type : {}",clientType);
 
