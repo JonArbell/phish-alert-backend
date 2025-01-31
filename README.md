@@ -1,36 +1,36 @@
 # PhishAlert: AI-Enhanced URL Protection (Gmail Extension) | BACKEND
 
 ## Overview
-The backend service for PhishAlert, our thesis project, processes URL safety checks and distributes results to the frontend (browser extension) and Arduino devices. The backend uses WebSockets for bidirectional communication and integrates with the Google Safe Browsing API and OpenAI API to provide robust phishing detection.
+The backend service for **PhishAlert**, our thesis project, processes URL safety checks and distributes results to the frontend (browser extension) and Arduino devices. The backend uses WebSockets for bidirectional communication and integrates with the Google Safe Browsing API and OpenAI API to provide robust phishing detection.
 
 
 ### Features
-- REST API Communication: Supports request-response communication between the frontend and backend.
-- API Integration:
-    - Google Safe Browsing API: Identifies malicious URLs.
-    - OpenAI API: Provides an additional layer of URL safety evaluation.
-- WebClient Communication: Uses WebClient to send URL safety analysis results to Arduino for hardware-based notifications.
-- Simultaneous Feedback: Sends URL safety analysis results to the frontend for user alerts while updating Arduino via WebClient.
+- **REST API Communication**: Supports request-response communication between the frontend and backend.
+- **API Integration**:
+    - **Google Safe Browsing API**: Identifies malicious URLs.
+    - **OpenAI API**: Provides an additional layer of URL safety evaluation.
+- **WebClient Communication**: Uses WebClient to send URL safety analysis results to Arduino for hardware-based notifications.
+- **Simultaneous Feedback**: Sends URL safety analysis results to the frontend for user alerts while updating Arduino via WebClient.
 
 
 ### System Flow
-1. Frontend: The user submits a URL to the backend through a REST API call.
-2. Backend:
+1. **Frontend**: The user submits a URL to the backend through a REST API call.
+2. **Backend**:
     - Validates the incoming URL.
     - Sends the URL to Google Safe Browsing and OpenAI APIs for analysis.
     - Processes and combines the results into a final verdict.
-3. Broadcast:
+3. **Broadcast**:
     - Sends the safety verdict to the frontend for user notifications.
     - Uses WebClient to transmit the results to the Arduino device for hardware alerts.
 
 ### Prerequisites
-1. Java Development Kit (JDK): Version 23.
-2. Maven: For dependency management.
-3. Google Safe Browsing API Key: Obtain one from Google Cloud Console.
-4. OpenAI API Key: Obtain one from OpenAI.
-5. Internet Connection: Required for API communication and online services
-6. IDE: IntelliJ IDEA or any Java-supporting Integrated Development Environment (IDE).
-7. Arduino Device: For physical alert handling based on the URL safety evaluation.
+1. **Java Development Kit (JDK)**: Version 23.
+2. **Maven**: For dependency management.
+3. **Google Safe Browsing API Key**: Obtain one from Google Cloud Console.
+4. **OpenAI API Key**: Obtain one from OpenAI.
+5. **Internet Connection**: Required for API communication and online services
+6. **IDE**: IntelliJ IDEA or any Java-supporting Integrated Development Environment (IDE).
+7. **Arduino Device**: For physical alert handling based on the URL safety evaluation.
 
 ### Installation
 **Clone the Repository**
@@ -54,6 +54,8 @@ Replace your_google_api_key_here and your_openai_api_key_here with the actual AP
 In this step, we're using Arduino Uno R4 Wi-Fi for physical alerts. Follow these steps to receive WebClient notifications:
 - Connect your Arduino Uno R4 Wi-Fi to your computer via USB.
 - Write and upload the following Arduino script to handle incoming WebClient requests and trigger hardware-based notifications:
+
+
 ```cpp
 #include <WiFi.h>
 #include <WiFiS3.h>
@@ -91,13 +93,6 @@ digitalWrite(redPin, LOW);
 
 server.begin();
 }
-
-// void redPinLoop() {
-//   digitalWrite(redPin, HIGH);
-//   delay(500);
-//   digitalWrite(redPin, LOW);
-//   delay(500);
-// }
 
 void loop() {
 WiFiClient client = server.available();
@@ -148,15 +143,16 @@ Serial.println("Client disconnected!");
 
 
 6. Test the Setup
-- Frontend (Browser Extension): The extension should now interact with the backend and receive notifications based 
+- **Frontend (Browser Extension)**: The extension should now interact with the backend and receive notifications based 
   on URL safety.
-- Arduino Device: The device will alert users with an LED or another physical indicator depending on whether the URL is safe or malicious.
+- **Arduino Device**: The device will alert users with an LED or another physical indicator depending on whether the URL is safe or malicious.
 
 
 ## Additional Notes
-- Testing: Test different types of URLs (safe, suspicious, and malicious) to ensure the system is accurately 
+- **Testing**: Test different types of URLs (safe, suspicious, and malicious) to ensure the system is accurately 
 identifying threats.
-- Logs: If there are any issues, check the backend logs for errors related to API calls or WebClient communication.
+- **Logs**: If there are any issues, check the backend logs for errors related to API calls or WebClient communication.
+- **API Limits**: The Google Safe Browsing API and OpenAI API may have usage limits depending on the API key you are using. Make sure to check their documentation for any rate limiting or quota restrictions.
 
 ## Team Members
 - **Ballon, Parizsha Marye** - Logo Designer
