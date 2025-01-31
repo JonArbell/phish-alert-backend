@@ -34,20 +34,19 @@ The backend service for PhishAlert, our thesis project, processes URL safety che
 
 ### Installation
 **Clone the Repository**
-1. git clone https://github.com/JonArbell/phish-alert.git
+1. ```git clone https://github.com/JonArbell/phish-alert.git```
 
 
-2. cd phishing-detector
+2. ``` cd phishing-detector ```
 
 
 3. Set Up Environment Variables
 Before running the backend, you need to configure your environment variables for API keys.
 Create a .env file in the root directory of the project and add the following:
-
-
-    google.safebrowsing.api.key=your_google_api_key_here
-    openai.api.key==your_openai_api_key_here
-
+```
+google.safebrowsing.api.key=your_google_api_key_here
+openai.api.key==your_openai_api_key_here
+```
 Replace your_google_api_key_here and your_openai_api_key_here with the actual API keys you obtained from Google and OpenAI.
 
 
