@@ -160,13 +160,13 @@ identifying threats.
 - Logs: If there are any issues, check the backend logs for errors related to API calls or WebClient communication.
 
 ## Team Members
-- [Ballon, Parizsha Marye] - Logo Designer, Technical Writer
-- [Bautista, Sebastian Kent] - Technical Research, Support Funds
-- [Cadao, Aaron Charles] - Support Frontend Developer, Technical Writer
-- [Cruz, Cristina Alexis] - Project Manager
-- [De Ocampo, Jon Arbell] - Arduino Developer, Full Stack Developer
-- [Enierga, Charles] - Hardware Specialist (Circuit Design), Technical Writer
-- [Luyong, Marialyn] - Research Analyst, Technical Writer
-- [Pingol, Rose] - Research Analyst, Technical Writer
-- [Playda, Crislie Key] - Research Analyst, Technical Writer
-- [Rodriguez, Reymar] - Hardware Specialist (Circuit Design), Support Frontend Developer, Technical Writer
+- **Ballon, Parizsha Marye** - Logo Designer, Technical Writer
+- **Bautista, Sebastian Kent** - Technical Research, Support Funds
+- **Cadao, Aaron Charles** - Support Frontend Developer, Technical Writer
+- **Cruz, Cristina Alexis** - Project Manager
+- **De Ocampo, Jon Arbell** - Arduino Developer, Full Stack Developer
+- **Enierga, Charles** - Hardware Specialist (Circuit Design), Technical Writer
+- **Luyong, Marialyn** - Research Analyst, Technical Writer
+- **Pingol, Rose** - Research Analyst, Technical Writer
+- **Playda, Crislie Key** - Research Analyst, Technical Writer
+- **Rodriguez, Reymar** - Hardware Specialist (Circuit Design), Support Frontend Developer, Technical Writer
