@@ -1,7 +1,8 @@
 # PhishAlert: AI-Enhanced URL Protection (Gmail Extension) | BACKEND
 
 ## Overview
-The backend service for **PhishAlert**, our thesis project, processes URL safety checks and distributes results to the frontend (browser extension) and Arduino devices. The backend uses WebSockets for bidirectional communication and integrates with the Google Safe Browsing API and OpenAI API to provide robust phishing detection.
+The backend service for **PhishAlert**, our thesis project, processes URL safety checks and delivers results to the 
+frontend (browser extension) and Arduino devices. It uses a REST API and WebClient to integrate with the Google Safe Browsing API and OpenAI API for phishing detection.
 
 
 ### Features
