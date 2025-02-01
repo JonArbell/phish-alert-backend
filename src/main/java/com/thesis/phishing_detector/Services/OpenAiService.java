@@ -72,7 +72,7 @@ public class OpenAiService implements ApiService{
 //                    "max_tokens", MAX_TOKEN
 //            );
 
-        // This prompt is come from Deepseek AI. Best prompt.
+        // This prompt is come from DeepSeek AI. Best prompt.
         var prompt = "Analyze this URL: " + url + " and check if it seems like a phishing attempt. Use the following criteria to evaluate the URL:\n" +
                 "1. **Domain Analysis**:\n" +
                 "   - Check if the domain name is misspelled or mimics a well-known website (e.g., 'paypa1.com' instead of 'paypal.com').\n" +
