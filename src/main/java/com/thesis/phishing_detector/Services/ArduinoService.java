@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.net.InetAddress;
 
 @Slf4j
 @Service
@@ -12,7 +15,17 @@ public class ArduinoService {
     private final WebClient webClient;
 
     public ArduinoService(WebClient.Builder webClient) {
-        this.webClient = webClient.baseUrl("http://192.168.2.112").build();
+
+        var ipAddress = "";
+
+        try{
+
+            ipAddress = InetAddress.getByName("arduino.local").getHostAddress();
+
+        } catch (UnknownHostException e) {
+            log.error(e.getClass().getName(),e.getMessage());
+        }
+        this.webClient = webClient.baseUrl(ipAddress).build();
     }
 
     public String sendResponse(String response){
