@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.net.InetAddress;
@@ -25,6 +24,9 @@ public class ArduinoService {
         } catch (UnknownHostException e) {
             log.error(e.getClass().getName(),e.getMessage());
         }
+
+        log.info("Ip Address : {}",ipAddress);
+
         this.webClient = webClient.baseUrl(ipAddress).build();
     }
 

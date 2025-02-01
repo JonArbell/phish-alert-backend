@@ -57,9 +57,9 @@ In this step, we're using Arduino Uno R4 Wi-Fi for physical alerts. Follow these
 
 
 ```cpp
-#include <WiFi.h>
 #include <WiFiS3.h>
-#include <MDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoMDNS.h>
 
 const char* ssid = "SK Telecom";
 const char* password = "wifinamint0";
@@ -69,71 +69,93 @@ const int greenPin = 12;
 
 WiFiServer server(80);
 
+WiFiUDP udp;
+MDNS mdns(udp);
+
+void nameFound(const char* name, IPAddress ip);
+
 void setup() {
-Serial.begin(9600);
+  pinMode(greenPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
 
-int status = WiFi.begin(ssid, password);
+  int status = WL_NO_SHIELD;
 
-pinMode(greenPin, OUTPUT);
-pinMode(redPin, OUTPUT);
-
-while(status != WL_CONNECTED){
-digitalWrite(redPin, HIGH);
-delay(300);
+  while(status != WL_CONNECTED){
+    digitalWrite(redPin, HIGH);
+    delay(300);
 
     digitalWrite(redPin, LOW);
     delay(300);
 
-}
-MDNS.begin("arduino");
+    status = WiFi.begin(ssid, password);
+  }
+  
+  mdns.begin(WiFi.localIP(), "arduino");
 
-Serial.println("mDNS responder started. Access the board at http://arduino.local");
+  mdns.setNameResolvedCallback(nameFound);
 
-digitalWrite(redPin, LOW);
+  digitalWrite(redPin, LOW);  
 
-server.begin();
+  server.begin();
 }
 
 void loop() {
-WiFiClient client = server.available();
+  WiFiClient client = server.available();
 
+  if(!mdns.isResolvingName()){
+    if (client && client.connected()) {
+      String request = "";
 
-
-if (client && client.connected()) {
-String request = "";
-
-    while (client.available()) {
-      char c = client.read();
-      request += c;
-    }
-
-    if (request.startsWith("POST /send-response")) {
-      if (request.indexOf("Safe") >= 0) {
-        response(client);
-        digitalWrite(greenPin, HIGH);
-        delay(5000);
-      } else if (request.indexOf("Suspicious") >= 0) {
-        response(client);
-        digitalWrite(redPin, HIGH);
-        delay(5000);
+      while (client.available()) {
+        char c = client.read();
+        request += c;
       }
 
-      digitalWrite(redPin, LOW);
-      digitalWrite(greenPin, LOW);
+      if (request.startsWith("POST /send-response")) {
+        if (request.indexOf("Safe") >= 0) {
+          response(client);
+          digitalWrite(greenPin, HIGH);
+          delay(5000);
+        } else if (request.indexOf("Suspicious") >= 0) {
+          response(client);
+          digitalWrite(redPin, HIGH);
+          delay(5000);
+        }
+
+        digitalWrite(redPin, LOW);
+        digitalWrite(greenPin, LOW);
+      }
     }
-}
+  }
+
+  mdns.run();
+  
 }
 
 void response(WiFiClient client){
-client.println("HTTP/1.1 200 OK");
-client.println("Content-Type: application/json");
-client.println("Connection: close");
-client.println();
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: application/json");
+  client.println("Connection: close");
+  client.println();
 
-client.println("{\"status\":\"success\", \"message\":\"Response processed\"}");
+  client.println("{\"status\":\"success\", \"message\":\"Response processed\"}");
+  client.stop();
 
-client.stop();
-Serial.println("Client disconnected!");
+}
+
+void nameFound(const char* name, IPAddress ip)
+{
+  if (ip != INADDR_NONE) {
+    Serial.print("The IP address for '");
+    Serial.print("' is ");
+    Serial.println(ip);
+
+  } else {
+    Serial.print("Resolving '");
+    Serial.print(name);
+    Serial.println("' timed out.");
+  }
+
 }
 ```
 - Upload this script to the Arduino device.
