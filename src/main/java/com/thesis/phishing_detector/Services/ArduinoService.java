@@ -4,8 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
+
 import java.net.UnknownHostException;
 import java.net.InetAddress;
+import java.time.Duration;
 import java.util.Map;
 
 @Slf4j
@@ -42,6 +45,7 @@ public class ArduinoService {
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
+                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                     .doOnNext(response -> log.info("Arduino response : {}", response))
                     .doOnError(error -> {
                         log.error("Arduino Error : {}", error.getMessage());

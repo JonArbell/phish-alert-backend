@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,6 +58,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
+                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                     .doOnNext(response -> log.info("Google Safe Api response : {}", response))
                     .doOnError(error -> {
                         log.error("Google Safe Api Error : {}", error.getMessage());

@@ -8,6 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
+
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -142,6 +145,7 @@ public class OpenAiService implements ApiService{
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(Map.class)
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .doOnNext(response -> log.info("Ai Response : {}",response))
                 .doOnError(error -> {
                     log.error("Ai Error : {}",error.getMessage());
