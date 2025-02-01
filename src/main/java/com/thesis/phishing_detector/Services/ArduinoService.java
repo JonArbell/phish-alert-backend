@@ -5,8 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import java.net.InetAddress;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -30,13 +30,11 @@ public class ArduinoService {
         this.webClient = webClient.baseUrl(ipAddress).build();
     }
 
-    public String sendResponse(String response){
+    public String sendResponse(String apiResponse){
 
         try {
-            // Request Payload
-            var requestBody = new HashMap<>();
 
-            requestBody.put("send",response);
+            var requestBody = Map.of("send",apiResponse);
 
             return webClient.post()
                     .uri("/send-response")
@@ -44,7 +42,7 @@ public class ArduinoService {
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
-                    .doOnNext(arduinoResponse -> log.info("Arduino response : {}", arduinoResponse))
+                    .doOnNext(response -> log.info("Arduino response : {}", response))
                     .doOnError(error -> {
                         log.error("Arduino Error : {}", error.getMessage());
                         throw new RuntimeException(error.getMessage());
