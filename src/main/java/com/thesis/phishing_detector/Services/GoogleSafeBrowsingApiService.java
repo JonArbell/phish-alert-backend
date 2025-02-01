@@ -56,26 +56,12 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
-                    .doOnNext(response -> {
-                        log.info("Google Safe Api response : {}", response);
-
-                        // If the response contains matches, there are threats
-//                    if (response.contains("matches")) {
-//                        logger.warn("URL is malicious: {}", url);
-//                    } else {
-//                        logger.info("URL is safe: {}", url);
-//                    }
-                    })
+                    .doOnNext(response -> log.info("Google Safe Api response : {}", response))
                     .doOnError(error -> {
                         log.error("Google Safe Api Error : {}", error.getMessage());
                         throw new RuntimeException(error.getMessage());
                     })
-//                .map(response -> {
-//                    if (response.contains("matches")){
-//                        return "Suspicious";
-//                    }
-//                    return "Safe";
-//                })
+                    .map(response -> response.contains("matches") ? "Suspicious" : "Safe")
                     .block();
 
         } catch (Exception e) {
