@@ -23,7 +23,7 @@ public class UrlProcessingService {
 
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-            if("{}\n".equals(googleResponse)){
+            if("Safe".equals(googleResponse)){
 
                 var openAiResponse = openAiService.analyzeUrl(url);
 
