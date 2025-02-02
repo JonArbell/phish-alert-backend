@@ -42,7 +42,7 @@ public class UrlProcessingService {
 
         }catch (RuntimeException e){
 
-            log.info("Process Exception Error : {}",e.getMessage());
+            log.error("Process Exception Error : {}",e.getMessage());
 
             return e.getMessage();
         }
