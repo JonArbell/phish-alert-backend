@@ -42,7 +42,7 @@ public class Controller {
 
             response.put("response",checkUrlResponse);
 
-            urlProcessingService.sendResponseToArduino(checkUrlResponse);
+//            urlProcessingService.sendResponseToArduino(checkUrlResponse);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
