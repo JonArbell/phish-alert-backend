@@ -1,6 +1,7 @@
 package com.thesis.phishing_detector.Services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Setter
 public class UrlProcessingService {
 
     private final ApiService googleSafeBrowsingApiService;
@@ -16,27 +18,21 @@ public class UrlProcessingService {
 
     private final ArduinoService arduinoService;
 
+    public void sendResponseToArduino(String url){
+
+        var apiResponse = arduinoService.sendResponse(url);
+        log.info("Api Response : {}",apiResponse);
+    }
+
     @Cacheable(value = "urls", key = "#url")
-    public String processUrl(String url){
+    public String responseOfApis(String url){
 
         try{
 
             var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-            if("Safe".equals(googleResponse)){
-
-                var openAiResponse = openAiService.analyzeUrl(url);
-
-//                var arduinoResponse = arduinoService.sendResponse(openAiResponse);
-//
-//                log.info("Arduino Response :  {}",arduinoResponse);
-
-                return openAiResponse;
-            }
-
-//            var arduinoResponse = arduinoService.sendResponse(googleResponse);
-//
-//            log.info("Arduino Response :  {}",arduinoResponse);
+            if("Safe".equals(googleResponse))
+                return openAiService.analyzeUrl(url);
 
             return googleResponse;
 
@@ -47,6 +43,5 @@ public class UrlProcessingService {
             return e.getMessage();
         }
     }
-
 
 }

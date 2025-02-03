@@ -38,9 +38,11 @@ public class Controller {
 
         try{
 
-            var checkUrlResponse = urlProcessingService.processUrl(urlRequest.getUrl());
+            var checkUrlResponse = urlProcessingService.responseOfApis(urlRequest.getUrl());
 
             response.put("response",checkUrlResponse);
+
+            urlProcessingService.sendResponseToArduino(checkUrlResponse);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
