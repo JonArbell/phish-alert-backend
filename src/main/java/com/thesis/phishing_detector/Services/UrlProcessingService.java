@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -12,16 +15,29 @@ import org.springframework.stereotype.Service;
 @Setter
 public class UrlProcessingService {
 
+
+
     private final ApiService googleSafeBrowsingApiService;
 
     private final ApiService openAiService;
 
     private final ArduinoService arduinoService;
 
-    public void sendResponseToArduino(String url){
+    private final Executor executor = Executors.newFixedThreadPool(5);
 
-        var apiResponse = arduinoService.sendResponse(url);
+    public String processUrl(String url){
+
+        var apiResponse = responseOfApis(url);
+
         log.info("Api Response : {}",apiResponse);
+
+        CompletableFuture.runAsync(() -> {
+            var arduinoResponse = arduinoService.sendResponse(apiResponse);
+            log.info("Arduino Response : {}", arduinoResponse);
+        },executor);
+
+        return apiResponse;
+
     }
 
     @Cacheable(value = "urls", key = "#url")
