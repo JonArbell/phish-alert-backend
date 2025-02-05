@@ -15,8 +15,6 @@ import java.util.concurrent.Executors;
 @Setter
 public class UrlProcessingService {
 
-
-
     private final ApiService googleSafeBrowsingApiService;
 
     private final ApiService openAiService;
@@ -43,21 +41,12 @@ public class UrlProcessingService {
     @Cacheable(value = "urls", key = "#url")
     public String responseOfApis(String url){
 
-        try{
+        var safeBrowsingResponse = googleSafeBrowsingApiService.analyzeUrl(url);
 
-            var googleResponse = googleSafeBrowsingApiService.analyzeUrl(url);
+        return "Safe".equals(safeBrowsingResponse) ?
+                openAiService.analyzeUrl(url) :
+                safeBrowsingResponse;
 
-            if("Safe".equals(googleResponse))
-                return openAiService.analyzeUrl(url);
-
-            return googleResponse;
-
-        }catch (RuntimeException e){
-
-            log.error("Process Exception Error : {}",e.getMessage());
-
-            return e.getMessage();
-        }
     }
 
 }
