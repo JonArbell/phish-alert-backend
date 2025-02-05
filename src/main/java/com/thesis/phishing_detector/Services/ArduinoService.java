@@ -35,28 +35,21 @@ public class ArduinoService {
 
     public String sendResponse(String apiResponse){
 
-        try {
+        var requestBody = Map.of("send",apiResponse);
 
-            var requestBody = Map.of("send",apiResponse);
-
-            return webClient.post()
-                    .uri("/send-response")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(requestBody)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
-                    .doOnNext(response -> log.info("Arduino response : {}", response))
-                    .onErrorResume(error -> {
-                        log.error("Arduino Api Unexpected error: {}", error.getMessage());
-                        return Mono.just("An unexpected error occurred.");
-                    })
-                    .block();
-
-        } catch (Exception e) {
-            log.error("Arduino error occurred: {}", e.getMessage());
-            return e.getMessage();
-        }
+        return webClient.post()
+                .uri("/send-response")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(String.class)
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
+                .doOnNext(response -> log.info("Arduino response : {}", response))
+                .onErrorResume(error -> {
+                    log.error("Arduino Api Unexpected error: {}", error.getMessage());
+                    return Mono.just("An unexpected error occurred.");
+                })
+                .block();
     }
 
 }
