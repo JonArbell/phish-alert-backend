@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
             errors.put("error", error.getDefaultMessage());
         });
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(WebClientRequestException.class)
