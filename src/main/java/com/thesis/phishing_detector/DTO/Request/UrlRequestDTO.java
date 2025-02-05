@@ -1,4 +1,4 @@
-package com.thesis.phishing_detector.Model;
+package com.thesis.phishing_detector.DTO.Request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UrlRequest {
+public class UrlRequestDTO {
 
     @Pattern(
             regexp = "^(https?://.+)$",  // ✅ Only allow http/https

@@ -1,6 +1,6 @@
-package com.thesis.phishing_detector.Model.GoogleSafeApiModel;
+package com.thesis.phishing_detector.DTO.Request.GoogleSafeApiRequestDTO;
 
-import com.thesis.phishing_detector.Model.UrlRequest;
+import com.thesis.phishing_detector.DTO.Request.UrlRequestDTO;
 import lombok.Builder;
 import lombok.Data;
 import java.util.List;
@@ -12,6 +12,6 @@ public class ThreatInfo {
     private List<String> threatTypes;
     private List<String> platformTypes;
     private List<String> threatEntryTypes;
-    private List<UrlRequest> threatEntries;
+    private List<UrlRequestDTO> threatEntries;
 
 }

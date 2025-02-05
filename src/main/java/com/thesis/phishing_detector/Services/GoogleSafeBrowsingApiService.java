@@ -1,9 +1,9 @@
 package com.thesis.phishing_detector.Services;
 
-import com.thesis.phishing_detector.Model.GoogleSafeApiModel.Client;
-import com.thesis.phishing_detector.Model.GoogleSafeApiModel.GoogleSafeRequest;
-import com.thesis.phishing_detector.Model.GoogleSafeApiModel.ThreatInfo;
-import com.thesis.phishing_detector.Model.UrlRequest;
+import com.thesis.phishing_detector.DTO.Request.GoogleSafeApiRequestDTO.Client;
+import com.thesis.phishing_detector.DTO.Request.GoogleSafeApiRequestDTO.GoogleSafeRequest;
+import com.thesis.phishing_detector.DTO.Request.GoogleSafeApiRequestDTO.ThreatInfo;
+import com.thesis.phishing_detector.DTO.Request.UrlRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -42,7 +42,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
                 .threatTypes(threatTypes)
                 .platformTypes(List.of("ANY_PLATFORM"))
                 .threatEntryTypes(List.of("URL"))
-                .threatEntries(List.of(new UrlRequest(url)))
+                .threatEntries(List.of(new UrlRequestDTO(url)))
                 .build();
 
         var requestBody = GoogleSafeRequest

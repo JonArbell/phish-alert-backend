@@ -1,7 +1,7 @@
 package com.thesis.phishing_detector.Services;
 
-import com.thesis.phishing_detector.Model.OpenAiModel.Message;
-import com.thesis.phishing_detector.Model.OpenAiModel.PromptRequest;
+import com.thesis.phishing_detector.DTO.Request.OpenAiRequestDTO.Message;
+import com.thesis.phishing_detector.DTO.Request.OpenAiRequestDTO.PromptRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

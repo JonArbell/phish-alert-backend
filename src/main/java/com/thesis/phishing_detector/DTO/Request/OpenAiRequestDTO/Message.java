@@ -1,4 +1,4 @@
-package com.thesis.phishing_detector.Model.OpenAiModel;
+package com.thesis.phishing_detector.DTO.Request.OpenAiRequestDTO;
 
 import lombok.Builder;
 import lombok.Data;
