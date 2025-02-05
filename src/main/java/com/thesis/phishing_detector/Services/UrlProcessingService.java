@@ -29,10 +29,10 @@ public class UrlProcessingService {
 
         log.info("Api Response : {}",apiResponse);
 
-        CompletableFuture.runAsync(() -> {
-            var arduinoResponse = arduinoService.sendResponse(apiResponse);
-            log.info("Arduino Response : {}", arduinoResponse);
-        },executor);
+//        CompletableFuture.runAsync(() -> {
+//            var arduinoResponse = arduinoService.sendResponse(apiResponse);
+//            log.info("Arduino Response : {}", arduinoResponse);
+//        },executor);
 
         return apiResponse;
 

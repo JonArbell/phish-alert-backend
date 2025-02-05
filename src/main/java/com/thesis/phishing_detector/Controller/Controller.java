@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -22,33 +21,19 @@ public class Controller {
     private final UrlProcessingService urlProcessingService;
 
     @PostMapping("/api/check-url")
-    public ResponseEntity<Map<String, String>> checkUrl(@RequestBody @Valid UrlRequest urlRequest,
+    public ResponseEntity<Map<String, String>> checkUrl(@RequestBody @Valid UrlRequest request,
                                                         @RequestHeader("Client-Type") String clientType){
 
-        log.info("URL Request : {}",urlRequest.getUrl());
+        log.info("URL Request : {}",request.getUrl());
 
         log.info("Client Type : {}",clientType);
 
-        var response = new HashMap<String, String>();
+        if(!"FRONTEND".equals(clientType) && !"ARDUINO".equals(clientType))
+            return new ResponseEntity<>(Map.of("error","Forbidden"), HttpStatus.FORBIDDEN);
 
-        if(!"FRONTEND".equals(clientType) && !"ARDUINO".equals(clientType)){
-            response.put("error","Forbidden");
-            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-        }
+        var response = urlProcessingService.processUrl(request.getUrl());
 
-        try{
-
-            var finalResponse = urlProcessingService.processUrl(urlRequest.getUrl());
-
-            response.put("response",finalResponse);
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        }catch (Exception e){
-            response.put("error", e.getMessage());
-            log.info("Exception response: {}", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(Map.of("response",response), HttpStatus.OK);
 
     }
 
