@@ -33,7 +33,7 @@ public class Controller {
 
         var response = urlProcessingService.processUrl(request.getUrl());
 
-        return new ResponseEntity<>(new UrlResponseDTO("response",response), HttpStatus.OK);
+        return new ResponseEntity<>(new UrlResponseDTO("success",response), HttpStatus.OK);
 
     }
 
