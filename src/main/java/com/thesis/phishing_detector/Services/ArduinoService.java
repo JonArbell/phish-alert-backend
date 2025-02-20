@@ -14,6 +14,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class ArduinoService {
+
     private final WebClient webClient;
 
     public ArduinoService(WebClient.Builder webClient) {
@@ -25,7 +26,9 @@ public class ArduinoService {
             ipAddress = InetAddress.getByName("arduino.local").getHostAddress();
 
         } catch (UnknownHostException e) {
+
             log.error(e.getClass().getName(),e.getMessage());
+
         }
 
         log.info("Ip Address : {}",ipAddress);
@@ -44,7 +47,7 @@ public class ArduinoService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
-                .doOnNext(response -> log.info("Arduino response : {}", response))
+                .doOnNext(response -> log.info("From arduino response : {}", response))
                 .onErrorResume(error -> {
                     log.error("Arduino Api Unexpected error: {}", error.getMessage());
                     return Mono.just("An unexpected error occurred.");

@@ -28,7 +28,7 @@ public class Controller {
 
         log.info("Client Type : {}",clientType);
 
-        if(!"FRONTEND".equals(clientType) && !"ARDUINO".equals(clientType))
+        if(!"FRONTEND".equals(clientType))
             return new ResponseEntity<>(new UrlResponseDTO("error","Forbidden"), HttpStatus.FORBIDDEN);
 
         var response = urlProcessingService.processUrl(request.getUrl());

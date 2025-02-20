@@ -112,16 +112,16 @@ void loop() {
         request += c;
       }
 
+      String messageReceived = extractSendValue(request);
       if (request.startsWith("POST /send-response")) {
-        if (request.indexOf("Safe") >= 0) {
-          response(client);
+        if (messageReceived == "Safe") {
           digitalWrite(greenPin, HIGH);
-          delay(5000);
-        } else if (request.indexOf("Suspicious") >= 0) {
-          response(client);
+        } else if (messageReceived == "Suspicious") {
           digitalWrite(redPin, HIGH);
-          delay(5000);
+          
         }
+        response(client,messageReceived);
+        delay(5000);
 
         digitalWrite(redPin, LOW);
         digitalWrite(greenPin, LOW);
@@ -133,19 +133,31 @@ void loop() {
   
 }
 
-void response(WiFiClient client){
+String extractSendValue(String body) {
+  int sendIndex = body.indexOf("\"send\":\"");
+  if (sendIndex == -1) return ""; // Key not found
+
+  sendIndex += 8; // Move to start of value
+  int endIndex = body.indexOf("\"", sendIndex);
+  if (endIndex == -1) return ""; // Malformed JSON
+
+  return body.substring(sendIndex, endIndex);
+}
+
+
+void response(WiFiClient client, String messageReceived){
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: application/json");
   client.println("Connection: close");
   client.println();
 
-  client.println("{\"status\":\"success\", \"message\":\"Response processed\"}");
+  client.println("{\"status\":\"success\", \"message\":\"Response processed\", \"message-received\":\"" + messageReceived + "\"}");
+
   client.stop();
 
 }
 
-void nameFound(const char* name, IPAddress ip)
-{
+void nameFound(const char* name, IPAddress ip){
   if (ip != INADDR_NONE) {
     Serial.print("The IP address for '");
     Serial.print("' is ");
