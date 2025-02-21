@@ -29,7 +29,7 @@ public class OpenAiService implements ApiService{
     private final int MAX_TOKEN = 50;
 
     @Value("${openai.api.url}")
-    private String url;
+    private String uri;
 
     public OpenAiService(WebClient.Builder webClient){
         this.webClient = webClient
@@ -139,7 +139,7 @@ public class OpenAiService implements ApiService{
                 .build();
 
         return webClient.post()
-                .uri(this.url)
+                .uri(this.uri)
                 .header(HttpHeaders.AUTHORIZATION,"Bearer "+this.apiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)

@@ -32,6 +32,7 @@ public class GoogleSafeBrowsingApiService implements ApiService{
 
     @Override
     public String analyzeUrl(String url){
+
         var threatTypes = Arrays.asList("MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE",
                 "POTENTIALLY_HARMFUL_APPLICATION");
 
