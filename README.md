@@ -192,6 +192,3 @@ identifying threats.
 - **📊 API Limits**: The Google Safe Browsing API and OpenAI API may have usage limits depending on the API key you 
   are using. Make sure to check their documentation for any rate limiting or quota restrictions.
 
----
-
-**🚀 Stay protected from phishing with PhishAlert! 🔐💡**
